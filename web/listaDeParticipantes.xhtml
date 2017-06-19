@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="centro">
+        <h:form>
+            <p:commandButton value="voltar para evento" action="paginaDoEvento?faces-redirect=true"/>
+            <p:dataGrid var="usuario" value="#{eventoBean.evento.partipantes}" >
+                <p:column>
+                    <p:outputLabel value="#{usuario.nome} "/>    
+                </p:column>
+             
+                <p:column>
+                    <p:commandButton rendered="#{usuario.id!=loginBean.usuarioLogado.id}" value="excluir" action="#{eventoBean.excluirUsuario(usuario.id)}"/>
+                </p:column>
+            
+            </p:dataGrid>
+            
+            
+        </h:form>
+    </ui:define>
+
+</ui:composition>

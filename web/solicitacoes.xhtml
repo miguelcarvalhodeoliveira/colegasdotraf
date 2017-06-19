@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="centro">
+         <p:commandButton value="ir para evento" action="paginaDoEvento?faces-redirect=true"/>
+           
+        <p:dataTable var="user" value="#{eventoBean.evento.usuariosSolicitantes}" emptyMessage="nenhuma solicitação">
+            <p:column>
+                <p:outputLabel value="#{user.nome} "/>
+            </p:column>
+             <p:column>
+                 <p:commandButton value="aceitar " action="#{eventoBean.aceitarSolictacao(user.id)}" update="@all"/>
+            </p:column>
+             <p:column>
+                 <p:commandButton value="negar " action="#{eventoBean.negarSolictacao(user.id)}" update="@all"/>
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+</ui:composition>

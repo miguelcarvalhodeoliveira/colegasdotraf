@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+        <title>COLEGAS DO TRAFEGO</title>
+
+        <h:outputScript library="js" name="scr.js" />
+    </h:head>
+    <h:body style="background-color: #004919;" >
+        <h:outputStylesheet library="css" name="default.css"  />
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+
+        <p:layout fullPage="true">
+
+            <p:layoutUnit class="corpo" position="north" size="110" maxSize="110" style="background-color: #004919; border: none; border: 0px; padding: 0px">
+                <ui:insert name="cima">
+                    <div style="background-color: #004919; border: none; border: 0px; padding: 0px; height: 105px">
+                        <p:graphicImage height="80px" style="margin-left: 100px; margin-top: 0px; padding-top: px" library="img" name="logo1.png"/>
+                        <p:outputLabel style="color: #ffffff;margin-left: 100px;font-size: 32pt" value="Olá, #{loginBean.usuarioLogado.nome}"/>
+                        <p:outputLabel style="font-size: 32pt; color: #ffffff" value=" planos para hoje?"/>
+
+                    </div>
+                </ui:insert>
+            </p:layoutUnit>
+
+
+            <p:layoutUnit class="corpo" position="west" size="275" collapsible="true" style="border: none; margin:  0px; border: 0px;">
+               <h:form style="border: none; margin:  0px; border: 0px;">
+                        <p:panelGrid columns="1">
+                            <p:commandLink value="pagina inicial" action="telaInicialUsuario?faces-redirect=true"/>
+                            <p:commandLink value="meus eventos" action="gerenciamentoDeEvento?faces-redirect=true"/>
+                            <p:commandLink value="novo evento" action="novoEvento?faces-redirect=true"/>
+                            <p:commandLink value="gerenciar conta" action="gerenciarConta?faces-redirect=true"/>
+                            <p:inputText style="padding-left: 15%" value="#{buscaEventoBean.termoBusca}" />
+                            <p:commandButton style="padding-left: 15%; background-color:  #ffffff" action="#{buscaEventoBean.buscar()}" value="buscar" /><br/>
+                        </p:panelGrid>
+                    </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="centro">
+
+
+                </ui:insert>
+            </p:layoutUnit>
+
+        </p:layout>
+
+
+
+    </h:body>
+</html>

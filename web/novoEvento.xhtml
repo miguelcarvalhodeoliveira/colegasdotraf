@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+
+    <ui:define name="centro">
+        <h:outputScript library="js" name="manipularMapa.js"/>
+        <h:outputScript library="js" name="scr.js"/>
+        <p:growl id="messages" showDetail="true" />
+
+        <h:form> 
+            <h:panelGrid columns="2" >
+            <h:outputLabel  value="nome do evento : " />
+            <p:inputText  value="#{novoEventoBean.evento.descricao}" />
+            <p:outputLabel value="deixar data visivel para todos ?" />
+            <p:selectBooleanCheckbox value="#{novoEventoBean.evento.privacidadeData}"/>
+            <p:outputLabel value="deixar local de encontro visivel para todos ?" />
+            <p:selectBooleanCheckbox value="#{novoEventoBean.evento.privacidadeLocalEncontro}"/>
+            <p:outputLabel value="deixar local do evento visivel para todos ?" />
+            <p:selectBooleanCheckbox value="#{novoEventoBean.evento.privacidadeLocalEvento}"/>
+            <p:outputLabel value="deixar mensagens visiveis para todos ?" />
+            <p:selectBooleanCheckbox value="#{novoEventoBean.evento.privacidaMensagem}"/>
+            </h:panelGrid>
+            <p:commandButton value="marcar local de encontro" action="#{novoEventoBean.marcarLocalDeEncontro()}" update=":pmap"/>
+            <p:commandButton value="marcar local do evento" action="#{novoEventoBean.marcarLocalDoEvento()}" update=":pmap"/>
+            <p:commandButton value="salvar evento" action="#{novoEventoBean.salvarEvento()}"
+                             disabled="#{novoEventoBean.evento.localDeEncontro.local==null or novoEventoBean.evento.localDoEvento.local==null}"
+                             update="@all"/>
+            
+        </h:form>
+        <p:panel id="pmap">
+        <p:gmap disableDoubleClickZoom="true" rendered="#{novoEventoBean.editarMapa}" id="gmap" center="-3.7387032986769415,-38.59766632318497" zoom="19" type="HYBRID" style="width:100%;height:400px"
+                model="#{novoEventoBean.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map" />
+</p:panel>
+        <p:dialog widgetVar="dlg" showEffect="fade">
+            <h:form prependId="false">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="descricao" value="decrição do local:" />
+                    <p:inputText id="descricao" value="#{novoEventoBean.title}" />
+                    <h:outputLabel value="data do encontro:" />
+                    <p:calendar value="#{novoEventoBean.data}" pattern="dd/MM/yyyy hh:mm"/>
+                    <f:facet name="footer">
+                        <p:commandButton value="Marcar local" actionListener="#{novoEventoBean.addMarker}" update="@all" oncomplete="markerAddComplete()" />
+                        <p:commandButton value="Cancelar" onclick="return cancel()" />
+                    </f:facet>
+                </h:panelGrid>
+
+                <h:inputHidden id="lat" value="#{novoEventoBean.lat}" />
+                <h:inputHidden id="lng" value="#{novoEventoBean.lng}" />
+                <h:inputHidden  value="#{loginBean.usuarioLogado.id}" binding="#{novoEventoBean.hidenid}" />
+                
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

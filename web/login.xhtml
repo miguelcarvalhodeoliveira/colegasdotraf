@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>COLEGAS DO TRAFEGO</title>
+    </h:head>
+    <h:body class="corpo" style="background-color: #004919; border: 0%;border: none; margin: 0px; border: 0px; padding: 0px ">
+        <h:outputStylesheet library="css" name="default.css"/>
+        <p:layout class="panelLogin" fullPage="true" style="background-color: #004919; border: 0%;border: none; margin: 0px; border: 0px; padding: 0px ">
+
+            <p:layoutUnit position="top" resizable="true" size="100" minSize="40" maxSize="200">
+                West
+            </p:layoutUnit>
+
+            <p:layoutUnit  position="center" collapsible="false">
+                <p:graphicImage library="img" name="mapa.png" id="imgMapa" />
+            </p:layoutUnit>
+
+            <p:layoutUnit   position="east"  size="450" collapsible="false" style="background-color: #004919; border: 0%;border: none; margin: 0px; border: 0px; padding: 0px">
+                <h:form style="background-color: #004919; border: 0%;border: none; margin: 0px; border: 0px; padding: 0px; color: #ffffff ">
+                    <p:graphicImage  id="logoApp" library="img" name="logo1.png"/>
+                    <p:growl autoUpdate="true" for="sucessoCadastro" sticky="true"/>   
+                    <h:panelGrid class="tabForLogin" columns="2"  style="width: 98%;margin-top: 10%" >
+                        <p:outputLabel value="email" class="tabForLogin"  />
+                        <p:inputText value="#{loginBean.usuario}" class="tabForLogin" />
+                        <p:outputLabel value="senha" class="tabForLogin" />
+                        <p:password value="#{loginBean.senha}" class="tabForLogin"/>
+
+                    </h:panelGrid>
+                    <p:commandButton value="entrar" action="#{loginBean.logar()}" style="background: #ffffff; color: #004919" />
+
+                </h:form>
+
+                <h:form style="color: #ffffff; background: #004919; padding-top: 40px; padding-bottom: 200px">
+                    <p:outputLabel  value="AINDA NÃO É CADASTRADO ?"/>
+                    <br/>
+                    <p:outputLabel style=" font-weight: bold" value="CADASTRE-SE AGORA E FIQUE POR DENTRO"/>     
+
+                    <h:panelGrid class="tabForLogin" columns="2" style="width: 98%;margin-top: 2%">
+                        <p:outputLabel value="nome" class="tabForLogin"/>
+                        <p:inputText value="#{loginBean.cad.nome}" class="tabForLogin"/>
+                        <p:outputLabel value="email" class="tabForLogin"/>
+                        <p:inputText value="#{loginBean.cad.email}" class="tabForLogin"/>
+                        <p:outputLabel value="senha" class="tabForLogin"/>
+                        <p:password value="#{loginBean.cad.senha}" class="tabForLogin"/>
+                        <p:outputLabel value="confirmação de senha" class="tabForLogin"/>
+                        <p:password value="#{loginBean.confSenha}" class="tabForLogin"/>
+                    </h:panelGrid>
+                    <p:commandButton value="salvar" action="#{loginBean.salvar}" style="background: #ffffff; color: #004919" />
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+    </h:body>
+</html>
+

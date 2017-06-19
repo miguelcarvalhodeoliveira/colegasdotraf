@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="centro">
+        <h:outputScript library="js" name="scr.js"/>
+        <p:growl id="messagesPagEvent" showDetail="true" />
+
+        <h:form id="formMEN">
+            <p:commandButton value="solicitar participação" rendered="#{!eventoBean.participante}"  
+                             action="#{eventoBean.solicitarParticipacao(loginBean.usuarioLogado.id)}" update="@all"/>
+            <p:commandButton value="visualizar lista de participantes" action="#{eventoBean.visualizarListaDeParticipantes}"
+                             rendered="#{eventoBean.evento.administrador.id==loginBean.usuarioLogado.id}" />
+            <br></br>
+            <p:gmap disableDoubleClickZoom="true" id="gmapEvento"  center="-3.7387032986769415,-38.59766632318497" zoom="14" type="HYBRID" style="width:100%;height:400px"
+                    model="#{eventoBean.emptyModel}" rendered="#{eventoBean.participante}"/>
+
+            <p:outputLabel style="padding-left: 30%;color: #00ff6a;font-size: 40pt" value="#{eventoBean.evento.descricao}"/><br></br>
+            <p:outputLabel value="data do evento:"/>
+            <p:calendar readonlyInput="true" style="padding-left: 2%;color: #00ff6a;"   value="#{eventoBean.evento.localDoEvento.data}" readonly="true" 
+                          pattern="dd/MM/yyyy HH:mm" rendered="#{eventoBean.evento.privacidadeData or eventoBean.participante}"/> 
+               
+            <br></br>
+            <p:outputLabel rendered="#{eventoBean.evento.privacidadeLocalEvento or eventoBean.participante }" value="local do evento: #{eventoBean.evento.localDoEvento.descricao}"/><br></br>
+
+            <p:outputLabel value="data do encontro:"/>
+            <p:calendar style="padding-left: 2%;color: #00ff6a;" pattern="dd/MM/yyyy HH:mm" readonly="true"
+                        rendered="#{eventoBean.evento.privacidadeData or eventoBean.participante}" readonlyInput="true"
+                           value="#{eventoBean.evento.localDeEncontro.data}" />
+                <br></br>
+            <p:outputLabel rendered="#{eventoBean.evento.privacidadeLocalEncontro or eventoBean.participante}" value="local do evento: #{eventoBean.evento.localDeEncontro.descricao}"/><br></br>
+
+            <p:dataTable styleClass="sem-bordas" rendered="#{eventoBean.participante}" id="tbSms" value="#{eventoBean.evento.mensagens}" var="sms" emptyMessage="nenhum mensagem a exibir">
+                <f:facet name="header">
+                    comentarios
+                </f:facet>
+                <p:column>
+                    <p:outputLabel value="${sms.usuario.nome} : "/>
+                </p:column>
+
+                <p:column>
+                    <p:inputTextarea readonly="true" style="color: #00ff6a" autoResize="true" value="${sms.conteudo}" />
+                </p:column>
+                
+                <p:column>
+                    <p:calendar style="color: #00ff6a;" value="#{sms.data}" pattern="dd/MM/yyyy HH:mm" readonly="true" readonlyInput="true"  />
+                                           
+                </p:column>
+
+                <p:column >
+                    <p:commandButton value="excluir" update=":formMEN:tbSms" action="#{eventoBean.excluirComentario(sms.idMensagem)}"
+                                     rendered="#{sms.usuario.id==loginBean.usuarioLogado.id or eventoBean.evento.administrador.id==loginBean.usuarioLogado.id}"/>
+                </p:column>
+            </p:dataTable>
+            <p:inputTextarea rendered="#{eventoBean.participante}"  value="#{eventoBean.texto}" />
+            <p:commandButton style="padding-top: 4%" value="publicar mensagem" rendered="#{eventoBean.participante}" 
+                             action="#{eventoBean.publicarMensagem()}" update=":formMEN:tbSms" />
+
+
+            <h:inputHidden  value="#{loginBean.usuarioLogado.id}" binding="#{eventoBean.hidenid}" />
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
